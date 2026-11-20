@@ -560,13 +560,13 @@ const GridScan = ({
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
     const intersection = new IntersectionObserver(entries => {
-      visible = entries.some(entry => entry.isIntersecting);
-      document.body.classList.toggle('hero-gridscan-active', visible);
+      visible = entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.2);
+      document.body.classList.toggle('scroll-story-gridscan-active', visible);
       if (visible) {
         last = 0;
         wake();
       }
-    });
+    }, { threshold: [0, 0.2] });
     intersection.observe(container);
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
@@ -604,7 +604,7 @@ const GridScan = ({
       window.removeEventListener('click', onClick);
       document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
-      document.body.classList.remove('hero-gridscan-active');
+      document.body.classList.remove('scroll-story-gridscan-active');
       [scene, light, bloomA, bloomB].forEach(target => gl.deleteTexture(target.texture));
       [sceneBuffer, bloomBufferA, bloomBufferB].forEach(buffer => gl.deleteFramebuffer(buffer));
       gl.deleteVertexArray(vao);
