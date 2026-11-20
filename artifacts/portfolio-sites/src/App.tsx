@@ -493,7 +493,7 @@ function Home() {
               ))}
             </div>
             <div className="container-wide hero-scroll-layout grid items-center gap-14 md:grid-cols-[1.07fr_.93fr] md:gap-4">
-              <div ref={heroCopyRef} data-hero-copy className="relative z-10 max-w-[600px]">
+              <div ref={heroCopyRef} data-hero-copy className="relative z-10 max-w-[720px]">
               <h1 ref={heroTitleRef} data-motion-reveal aria-live="polite" aria-atomic="true" aria-label={showMoneyHeadline ? 'Nos dois casos, você está deixando dinheiro na mesa!' : 'Seu site é confuso ou você nem tem um site?'} style={{ '--reveal-delay': '100ms' } as CSSProperties} className="hero-home-title display-font reveal reveal-delay-1">
                 <AnimatePresence mode="wait" initial={false}>
                   {showMoneyHeadline ? (
