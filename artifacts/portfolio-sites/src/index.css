@@ -363,7 +363,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   width: 100%;
   height: 100svh;
   overflow: hidden;
-  background-color: #f6f4ec;
+  background-color: transparent;
 }
 .hero-scroll-layout {
   min-height: 100svh;
@@ -523,6 +523,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid #477ed1; outline-offs
 .scroll-text-highlight-word { color: #477ed1; font-family: 'Space Grotesk', var(--app-font-sans); font-weight: 700; }
 .scroll-story-hook-section {
   position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
   isolation: isolate;
   overflow: hidden;
   color: #172f52;
@@ -539,8 +542,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid #477ed1; outline-offs
 .scroll-story-block { position: relative; display: flex; min-height: clamp(560px, 78svh, 920px); align-items: center; padding: clamp(80px, 11vw, 152px) 0; }
 .scroll-story-inner { position: relative; z-index: 1; width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
 .scroll-story-text { margin: 0; font-family: var(--app-font-serif); font-weight: 500; line-height: 1.08; letter-spacing: -.065em; }
-.scroll-story-hook { text-align: center; background: transparent; }
-.scroll-story-hook-text { max-width: 1020px; margin-inline: auto; font-size: clamp(3rem, 7.8vw, 7.4rem); font-weight: 700; line-height: .98; letter-spacing: -.075em; }
+.scroll-story-hook-section .scroll-story-hook { width: 100%; min-height: 100svh; padding: clamp(48px, 8svh, 96px) 0; text-align: center; background: transparent; }
+.scroll-story-hook-section .scroll-story-inner { width: min(94vw, 1440px); }
+.scroll-story-hook-text { max-width: 100%; margin-inline: auto; font-size: clamp(4.25rem, 10vw, 9rem); font-weight: 700; line-height: .94; letter-spacing: -.075em; }
 .scroll-story-pain-no-site { background: #e9eff7; }
 .scroll-story-pain-confusing-site { background: #f6f4ec; }
 .scroll-story-pain .scroll-story-inner { display: flex; }
@@ -580,8 +584,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid #477ed1; outline-offs
   #contato { padding-top: 4rem; padding-bottom: 4rem; }
   .eyebrow { font-size: 10px; letter-spacing: .1em; }
   .scroll-story-block { min-height: clamp(540px, 78svh, 760px); padding: 80px 0; }
+  .scroll-story-hook-section .scroll-story-hook { min-height: 100svh; padding: clamp(56px, 9svh, 88px) 0; }
+  .scroll-story-hook-section .scroll-story-inner { width: calc(100% - 24px); }
   .scroll-story-inner { width: min(100% - 32px, 560px); }
-  .scroll-story-hook-text { font-size: clamp(2.8rem, 10.5vw, 4.4rem); }
+  .scroll-story-hook-text { font-size: clamp(3.35rem, 13.5vw, 4.8rem); line-height: .96; }
   .scroll-story-pain .scroll-story-text { font-size: clamp(1.85rem, 7vw, 2.8rem); }
   .scroll-story-solution .scroll-story-text { font-size: clamp(3rem, 9.5vw, 4.7rem); }
   .scroll-story-device-icons { gap: 20px; margin-bottom: 28px; }
