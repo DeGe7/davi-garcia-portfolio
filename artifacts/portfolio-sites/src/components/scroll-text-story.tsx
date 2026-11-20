@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Monitor, Smartphone, Tablet } from 'lucide-react';
 import { ScrollBaseAnimation } from '@/components/ui/scroll-text-marque';
 import { TextAnimation } from '@/components/ui/scroll-text';
+import ReactBitsGridScan from '@/components/ReactBitsGridScan';
 
 const blurReveal: Parameters<typeof TextAnimation>[0]['variants'] = {
   hidden: { filter: 'blur(12px)', opacity: 0, y: 18, scale: 0.97 },
@@ -33,7 +34,20 @@ export function ScrollTextStory() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section id="historia" className="scroll-story" aria-label="Uma história sobre sites que ajudam negócios" data-testid="section-scroll-story">
+    <>
+    <section id="historia" className="scroll-story-hook-section" aria-label="Uma história sobre sites que ajudam negócios" data-testid="section-scroll-story">
+      <ReactBitsGridScan
+        linesColor="#4d4757"
+        scanColor="#7dd3fc"
+        cells={8}
+        depth={3}
+        scanDuration={2.4}
+        scanDelay={1.6}
+        clickEffect="ping"
+        enableWebcam={false}
+        className="scroll-story-grid-scan"
+        style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}
+      />
       <article className="scroll-story-block scroll-story-hook" data-testid="scroll-story-block-0">
         <div className="scroll-story-inner">
           <TextAnimation
@@ -45,7 +59,9 @@ export function ScrollTextStory() {
           />
         </div>
       </article>
+    </section>
 
+    <section className="scroll-story" aria-label="Como um site ajuda seu negócio">
       <article className="scroll-story-block scroll-story-pain scroll-story-pain-no-site" data-testid="scroll-story-block-1">
         <div className="scroll-story-inner">
           <TextAnimation
@@ -137,5 +153,6 @@ export function ScrollTextStory() {
         </div>
       </article>
     </section>
+    </>
   );
 }
