@@ -4,7 +4,6 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ReactLenis, useLenis } from 'lenis/react';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { FlowingRibbonsBackground } from '@/components/interactive-dots-background';
-import ReactBitsGridScan from '@/components/ReactBitsGridScan';
 import { HeroDeviceShowcase, type HeroDeviceMorphController } from '@/components/hero-device-showcase';
 import real100Bill from '@/assets/real-100.webp';
 import SwarmCursor from '@/components/SwarmCursor';
@@ -510,18 +509,6 @@ function Home() {
       <main id="conteudo">
         <section id="inicio" ref={heroSectionRef} className="hero-scroll-section relative">
           <div className="hero-scroll-viewport" ref={heroViewportRef}>
-            <ReactBitsGridScan
-              linesColor="#4d4757"
-              scanColor="#7dd3fc"
-              cells={8}
-              depth={3}
-              scanDuration={2.4}
-              scanDelay={1.6}
-              clickEffect="ping"
-              enableWebcam={false}
-              className="hero-grid-scan"
-              style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}
-            />
             <div className="hero-brand-wrap container-wide">
               <a ref={heroBrandRef} href="#inicio" aria-label="Davi Garcia, início" className="hero-brand" data-testid="link-home">Davi Garcia</a>
             </div>
