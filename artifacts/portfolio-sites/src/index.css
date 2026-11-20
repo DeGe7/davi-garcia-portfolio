@@ -356,7 +356,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   50% { translate: .008em -.075em; }
   76% { translate: .014em -.025em; }
 }
-.hero-scroll-section { position: relative; height: 540vh; height: 540svh; overflow: visible; }
+.hero-scroll-section { position: relative; height: 620vh; height: 620svh; overflow: visible; }
 .hero-scroll-viewport {
   position: relative;
   isolation: isolate;
@@ -390,8 +390,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
   pointer-events: auto;
 }
 .hero-device-zoom {
-  transform-origin: center center;
-  will-change: transform;
   width: 100%;
   max-width: 620px;
 }
@@ -600,6 +598,7 @@ html { scroll-padding-top: 1rem; }
   height: clamp(350px, 35vw, 450px);
   overflow: visible;
   perspective: 1000px;
+  will-change: transform;
 }
 .hero-device-showcase { width: 100%; }
 .hero-device-caption {
@@ -675,7 +674,7 @@ html { scroll-padding-top: 1rem; }
   vector-effect: non-scaling-stroke;
 }
 @media (max-width: 767px) {
-  .hero-scroll-section { height: 275vh; height: 275svh; }
+  .hero-scroll-section { height: 320vh; height: 320svh; }
   .hero-brand-wrap { width: min(100% - 32px, 560px); top: max(20px, 3svh); }
   .hero-brand { font-size: 16px; }
   .hero-scroll-layout {

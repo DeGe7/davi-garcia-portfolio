@@ -227,30 +227,37 @@ function Home() {
     const copy = heroCopyRef.current;
     const brand = heroBrandRef.current;
     const device = heroDeviceZoomRef.current;
-    if (!section || !viewport || !copy || !brand || !device) return;
+    const zoomTarget = device?.querySelector<HTMLElement>('.hero-device-stage');
+    const silhouette = zoomTarget?.querySelector<SVGPathElement>('.hero-morph-shape');
+    const caption = device?.querySelector<HTMLElement>('.hero-device-caption');
+    if (!section || !viewport || !copy || !brand || !device || !zoomTarget || !silhouette) return;
 
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
-      gsap.set(device, { x: 0, y: 0, scale: 1, transformOrigin: '50% 50%' });
+      const resetZoom = () => {
+        gsap.set(zoomTarget, { x: 0, y: 0, scale: 1, transformOrigin: '50% 50%' });
+      };
+      const silhouetteBounds = () => silhouette.getBoundingClientRect();
+
+      resetZoom();
 
       const centerX = () => {
         const frameBounds = viewport.getBoundingClientRect();
-        const bounds = device.getBoundingClientRect();
+        const bounds = zoomTarget.getBoundingClientRect();
         return frameBounds.left + frameBounds.width / 2 - bounds.left - bounds.width / 2;
       };
       const centerY = () => {
         const frameBounds = viewport.getBoundingClientRect();
-        const bounds = device.getBoundingClientRect();
+        const bounds = zoomTarget.getBoundingClientRect();
         return frameBounds.top + frameBounds.height / 2 - bounds.top - bounds.height / 2;
       };
       const screenFillScale = () => {
-        const bounds = device.getBoundingClientRect();
-        const safeShapeWidth = bounds.width * 0.6;
-        const safeShapeHeight = bounds.height * 0.6;
+        const frameBounds = viewport.getBoundingClientRect();
+        const bounds = silhouetteBounds();
         return Math.max(
-          window.innerWidth / safeShapeWidth,
-          window.innerHeight / safeShapeHeight,
-        ) * 1.08;
+          frameBounds.width / bounds.width,
+          frameBounds.height / bounds.height,
+        ) * 1.04;
       };
 
       const morphToMonitor = { progress: 0 };
@@ -282,14 +289,14 @@ function Home() {
           pin: viewport,
           pinSpacing: false,
           start: 'top top',
-          end: () => `+=${Math.round(window.innerHeight * (window.matchMedia('(max-width: 767px)').matches ? 2.75 : 5.4))}`,
+          end: () => `+=${Math.round(section.getBoundingClientRect().height)}`,
           scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             if (self.scroll() > self.start + 1) beginMonitorMorph();
           },
-          onRefreshInit: () => gsap.set(device, { x: 0, y: 0, scale: 1 }),
+          onRefreshInit: resetZoom,
           onLeaveBack: () => {
             heroMorphControllerRef.current?.resumeAutonomous();
             monitorMorphStarted = false;
@@ -307,7 +314,7 @@ function Home() {
           ease: 'power1.inOut',
           onUpdate: syncMonitorMorph,
         }, 0)
-        .to(device, {
+        .to(zoomTarget, {
           x: centerX,
           y: centerY,
           scale: screenFillScale,
@@ -316,6 +323,10 @@ function Home() {
           ease: 'none',
         }, monitorMorphPortion)
         .to(viewport, { backgroundColor: '#e6efff', duration: 0.12, ease: 'none' }, 0.88);
+
+      if (caption) {
+        timeline.to(caption, { autoAlpha: 0, duration: 0.1, ease: 'none' }, monitorMorphPortion);
+      }
 
       const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
       document.fonts?.ready.then(() => ScrollTrigger.refresh());
