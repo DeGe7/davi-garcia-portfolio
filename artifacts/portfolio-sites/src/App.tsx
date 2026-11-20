@@ -133,6 +133,7 @@ function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [sent, setSent] = useState(false);
   const [showMoneyHeadline, setShowMoneyHeadline] = useState(false);
+  const [headlineLoopActive, setHeadlineLoopActive] = useState(true);
   const [heroDust, setHeroDust] = useState<HeroDustParticle[]>([]);
   const heroSectionRef = useRef<HTMLElement | null>(null);
   const heroViewportRef = useRef<HTMLDivElement | null>(null);
@@ -261,9 +262,16 @@ function Home() {
       };
 
       const morphToMonitor = { progress: 0 };
+      const heroCopyFadePortion = 0.13;
       const monitorMorphPortion = 0.16;
       let monitorMorphStarted = false;
       let monitorMorphComplete = false;
+      let headlineResumeTimer: number | null = null;
+      let latestHeadlineProgress = 0;
+      const clearHeadlineResumeTimer = () => {
+        if (headlineResumeTimer !== null) window.clearTimeout(headlineResumeTimer);
+        headlineResumeTimer = null;
+      };
       const syncMonitorMorph = () => {
         if (!monitorMorphStarted || monitorMorphComplete) return;
         const controller = heroMorphControllerRef.current;
@@ -294,9 +302,31 @@ function Home() {
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
+            latestHeadlineProgress = self.progress;
+            const headlineVisible = self.progress <= heroCopyFadePortion;
+            if (self.direction < 0 && headlineVisible) {
+              setShowMoneyHeadline(false);
+              setHeadlineLoopActive(false);
+              clearHeadlineResumeTimer();
+              headlineResumeTimer = window.setTimeout(() => {
+                headlineResumeTimer = null;
+                if (latestHeadlineProgress <= heroCopyFadePortion) {
+                  setShowMoneyHeadline(false);
+                  setHeadlineLoopActive(true);
+                }
+              }, 600);
+            } else {
+              clearHeadlineResumeTimer();
+              setHeadlineLoopActive(headlineVisible);
+            }
             if (self.scroll() > self.start + 1) beginMonitorMorph();
           },
           onRefreshInit: resetZoom,
+          onEnterBack: () => {
+            clearHeadlineResumeTimer();
+            setShowMoneyHeadline(false);
+            setHeadlineLoopActive(false);
+          },
           onLeaveBack: () => {
             heroMorphControllerRef.current?.resumeAutonomous();
             monitorMorphStarted = false;
@@ -306,8 +336,8 @@ function Home() {
       });
 
       timeline
-        .to(copy, { autoAlpha: 0, y: -36, duration: 0.13, ease: 'none' }, 0)
-        .to(brand, { autoAlpha: 0, y: -16, duration: 0.13, ease: 'none' }, 0)
+        .to(copy, { autoAlpha: 0, y: -36, duration: heroCopyFadePortion, ease: 'none' }, 0)
+        .to(brand, { autoAlpha: 0, y: -16, duration: heroCopyFadePortion, ease: 'none' }, 0)
         .to(morphToMonitor, {
           progress: 1,
           duration: monitorMorphPortion,
@@ -330,7 +360,10 @@ function Home() {
 
       const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
       document.fonts?.ready.then(() => ScrollTrigger.refresh());
-      return () => window.cancelAnimationFrame(refreshFrame);
+      return () => {
+        clearHeadlineResumeTimer();
+        window.cancelAnimationFrame(refreshFrame);
+      };
     });
 
     return () => media.revert();
@@ -419,10 +452,11 @@ function Home() {
       setShowMoneyHeadline(true);
       return;
     }
+    if (!headlineLoopActive) return;
     const displayDuration = showMoneyHeadline ? 9500 : 3600;
     const timer = window.setTimeout(() => setShowMoneyHeadline((current) => !current), displayDuration);
     return () => window.clearTimeout(timer);
-  }, [prefersReducedMotion, showMoneyHeadline]);
+  }, [prefersReducedMotion, showMoneyHeadline, headlineLoopActive]);
   useEffect(() => {
     const targets = document.querySelectorAll<HTMLElement>('[data-motion-reveal]');
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
