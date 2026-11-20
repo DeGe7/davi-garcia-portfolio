@@ -363,16 +363,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   width: 100%;
   height: 100svh;
   overflow: hidden;
-  background-color: #e6efff;
+  background-color: #f6f4ec;
 }
-.hero-grid-scan {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.hero-grid-scan canvas { display: block; width: 100%; height: 100%; }
 .hero-scroll-layout {
   min-height: 100svh;
   grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr);
@@ -529,11 +521,25 @@ button:focus-visible, a:focus-visible { outline: 2px solid #477ed1; outline-offs
 .scroll-text-word { display: inline-block; white-space: nowrap; }
 .scroll-text-letter { display: inline-block; }
 .scroll-text-highlight-word { color: #477ed1; font-family: 'Space Grotesk', var(--app-font-sans); font-weight: 700; }
+.scroll-story-hook-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #172f52;
+  background: radial-gradient(ellipse at 50% 48%, rgba(71,126,209,.1), transparent 58%), #e6efff;
+}
+.scroll-story-grid-scan {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
 .scroll-story { overflow: hidden; background: #f6f4ec; color: #172f52; }
 .scroll-story-block { position: relative; display: flex; min-height: clamp(560px, 78svh, 920px); align-items: center; padding: clamp(80px, 11vw, 152px) 0; }
 .scroll-story-inner { position: relative; z-index: 1; width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
 .scroll-story-text { margin: 0; font-family: var(--app-font-serif); font-weight: 500; line-height: 1.08; letter-spacing: -.065em; }
-.scroll-story-hook { text-align: center; background: radial-gradient(ellipse at 50% 48%, rgba(71,126,209,.1), transparent 58%), #e6efff; }
+.scroll-story-hook { text-align: center; background: transparent; }
 .scroll-story-hook-text { max-width: 1020px; margin-inline: auto; font-size: clamp(3rem, 7.8vw, 7.4rem); font-weight: 700; line-height: .98; letter-spacing: -.075em; }
 .scroll-story-pain-no-site { background: #e9eff7; }
 .scroll-story-pain-confusing-site { background: #f6f4ec; }
@@ -948,7 +954,7 @@ html { scroll-padding-top: 1rem; }
   mix-blend-mode: multiply;
   transition: opacity .25s ease;
 }
-.hero-gridscan-active .interactive-ribbons-layer { opacity: 0; }
+.scroll-story-gridscan-active .interactive-ribbons-layer { opacity: 0; }
 .interactive-ribbons-layer canvas { display: block; width: 100%; height: 100%; }
 .site-shell > header, .site-shell > main, .site-shell > footer { position: relative; z-index: 2; }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
