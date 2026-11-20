@@ -1,0 +1,4 @@
+- [Morph de silhuetas](device-silhouette-morph.md) — o contorno animado principal deve assumir a silhueta do aparelho; detalhes internos podem ficar separados.
+- [Captura de scroll com Lenis](reanimate-lenis-capture.md) — grave rolagem com poucos passos e pausa suficiente para a interpolação do Lenis assentar antes de comparar.
+- [ScrollTrigger no carregamento](scrolltrigger-initial-progress.md) — não trate `onEnter` como gesto do usuário; uma seção no topo pode ativá-lo antes da primeira rolagem.
+- [Capturas Reanimate neste workspace](reanimate-capture-runtime.md) — os scripts de captura precisam localizar a biblioteca Mesa `libgbm` no ambiente do shell.

@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Portfólio de Sites"
+description = "Portfólio profissional em português para apresentar serviços de criação de sites e converter visitantes em pedidos de orçamento."
+version = "1.0.0"
+id = "artifacts/portfolio-sites"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23228
+
+[services.development]
+run = "pnpm --filter @workspace/portfolio-sites run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/portfolio-sites", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/portfolio-sites/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23228"
+BASE_PATH = "/"
