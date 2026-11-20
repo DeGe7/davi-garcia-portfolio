@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ReactLenis, useLenis } from 'lenis/react';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { FlowingRibbonsBackground } from '@/components/interactive-dots-background';
+import GridScan from '@/components/GridScan';
 import { HeroDeviceShowcase, type HeroDeviceMorphController } from '@/components/hero-device-showcase';
 import real100Bill from '@/assets/real-100.webp';
 import SwarmCursor from '@/components/SwarmCursor';
@@ -237,6 +238,7 @@ function Home() {
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const resetZoom = () => {
         gsap.set(zoomTarget, { x: 0, y: 0, scale: 1, transformOrigin: '50% 50%' });
+        gsap.set(silhouette, { fillOpacity: 1 });
       };
       const silhouetteBounds = () => silhouette.getBoundingClientRect();
 
@@ -349,6 +351,11 @@ function Home() {
           y: centerY,
           scale: screenFillScale,
           zIndex: 30,
+          duration: 1 - monitorMorphPortion,
+          ease: 'none',
+        }, monitorMorphPortion)
+        .to(silhouette, {
+          fillOpacity: 0.68,
           duration: 1 - monitorMorphPortion,
           ease: 'none',
         }, monitorMorphPortion)
@@ -503,6 +510,15 @@ function Home() {
       <main id="conteudo">
         <section id="inicio" ref={heroSectionRef} className="hero-scroll-section relative">
           <div className="hero-scroll-viewport" ref={heroViewportRef}>
+            <GridScan
+              linesColor="#4d4757"
+              scanColor="#7dd3fc"
+              cells={8}
+              depth={3}
+              scanDuration={2.4}
+              scanDelay={1.6}
+              clickEffect="ping"
+            />
             <div className="hero-brand-wrap container-wide">
               <a ref={heroBrandRef} href="#inicio" aria-label="Davi Garcia, início" className="hero-brand" data-testid="link-home">Davi Garcia</a>
             </div>
